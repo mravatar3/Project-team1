@@ -1,5 +1,6 @@
 <?php
     require('libvirt.php');
+	require('createDisk.php');
 	include 'settings.php';
     $lv = new Libvirt('esx://'.$connectServer.'?no_verify=1', FALSE);
     $hn = $lv->get_hostname();
@@ -20,7 +21,9 @@
 	// Dit gedeelte geeft aan welke ISO gemount wordt
 	$iso = $_POST['iso'];
 	
-    exec("esx-img create -f qcow2 -o preallocation=metadata [SAN] ".$vm_name.".qcow2 100G");
+	// Dit gedeelte moeten we nog configureren
+    createDiskEsxi($vm_name, $memory);
+	sleep(5);
 	
     $xml = "<domain type='vmware' xmlns:vmware='http://libvirt.org/schemas/domain/vmware/1.0'>
 				<name>".$vm_name."</name>
@@ -39,20 +42,17 @@
 			<devices>
 				<disk type='file' device='cdrom'>
                     <source file='[SAN] ".$iso."'/>
-                    <target dev='hdb' bus='ide'/>
+                    <target dev='hdc' bus='ide'/>
                     <readonly/>
                 </disk>
 				<disk type='file' device='disk'>
 					<source file='[SAN] ".$vm_name."/".$vm_name.".vmdk'/>
+					<backingStore/>
 					<target dev='sda' bus='scsi'/>
 					<address type='drive' controller='0' bus='0' target='0' unit='0'/>
 				</disk>
 				<controller type='scsi' index='0' model='vmpvscsi'/>
-					<interface type='bridge'>
-						<mac address='00:0c:29:3b:84:8b'/>
-						<source bridge='LOCAL-VM'/>
-						<model type='vmxnet3'/>
-					</interface>
+				<controller type='ide' index='0'/>
 				<video>
 					<model type='vmvga' vram='4096' primary='yes'/>
 				</video>

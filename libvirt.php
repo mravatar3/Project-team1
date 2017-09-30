@@ -1,4 +1,5 @@
 <?php
+	
 class Libvirt 
 {
     private $conn;
@@ -35,7 +36,8 @@ class Libvirt
 
     function connect($uri = 'null') 
     {
-		$credentials = array(VIR_CRED_AUTHNAME=>'root',VIR_CRED_PASSPHRASE=>'Never0031!');
+		include 'settings.php';
+		$credentials = array(VIR_CRED_AUTHNAME=>$usernameEsxi,VIR_CRED_PASSPHRASE=>$passwordEsxi);
         $this->conn=libvirt_connect($uri, false, $credentials);
         if ($this->conn==false)
             return $this->_set_last_error();

@@ -1,0 +1,1 @@
+sshpass -p 'Never0031!' ssh root@192.168.0.180 "cd /vmfs/volumes/SAN; vmkfstools -c 2048m hallo3.vmdk"
