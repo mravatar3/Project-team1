@@ -2,7 +2,8 @@
     error_reporting(0);
 
     require('libvirt.php');
-    $Libvirt = new Libvirt('qemu://118.26.200.67/system');
+	include 'settings.php';
+    $Libvirt = new Libvirt('esx://'.$connectServer.'/?no_verify=1');
     $hn = $Libvirt->get_hostname();
     if ($hn == false)
         die('Cannot open connection to hypervisor</body></html>');
@@ -12,13 +13,13 @@
     $ret = '';
     if(!$Libvirt->domain_is_running($res, $name)){
         if(!$Libvirt->domain_undefine($name)){
-            $ret .= $name.'删除失败！<br>';
+            $ret .= $name.'Deleting Failed!<br>';
         }else{
             exec("rm -f /data/vm/".$name.".qcow2");
-            $ret .= $name.'删除成功！<br>';
+            $ret .= $name.'Sucessfully deleted！<br>';
         }
     }else{
-        $ret .= $name.'正在运行中，不能删除！<br>';
+        $ret .= $name.'This VM is running, please shut down the VM before deleting！<br>';
     }
 
    header('Location:index.php');

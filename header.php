@@ -2,15 +2,17 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>虚拟机管理</title>
+<title>Dashboard</title>
 <link type="text/css" rel="stylesheet" href="bootstrap/css/bootstrap.min.css"/>
 <link type="text/css" rel="stylesheet" href="css/style.css"/>
 <script type="text/javascript" src="js/jquery-1.7.1.min.js"></script>
 </head>
 <body>
 <?php
-    require('libvirt.php');
-    $lv = new Libvirt('esx://192.168.0.180?no_verify=1', FALSE, $credentials);
+	// error_reporting(0); // Deze even uit omdat we willen debuggen!
+	require('libvirt.php');
+    include 'settings.php';
+    $lv = new Libvirt('esx://'.$connectServer.'?no_verify=1', FALSE);
     $hn = $lv->get_hostname();
     if ($hn == false)
         die('Cannot open connection to hypervisor</body></html>');
@@ -58,7 +60,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="brand" href="index.php">虚拟机管理</a>
+            <a class="brand" href="index.php">Automation dashboard</a>
             <div class="nav-collapse collapse">
                 <ul class="nav">
                     <li><a href="index.php">Main page</a></li>

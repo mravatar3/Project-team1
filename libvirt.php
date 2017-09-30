@@ -35,7 +35,7 @@ class Libvirt
 
     function connect($uri = 'null') 
     {
-		$credentials = array(VIR_CRED_AUTHNAME=>'root',VIR_CRED_PASSPHRASE=>'wachtwoord!');
+		$credentials = array(VIR_CRED_AUTHNAME=>'root',VIR_CRED_PASSPHRASE=>'Never0031!');
         $this->conn=libvirt_connect($uri, false, $credentials);
         if ($this->conn==false)
             return $this->_set_last_error();

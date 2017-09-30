@@ -14,7 +14,7 @@ $tmp = $lv->get_domain_count();
             <?php echo "Statistics: {$tmp['total']} domains, {$tmp['active']} active, {$tmp['inactive']} inactive";?>
         </p>
         <p>
-            <button class="btn btn-primary" onclick="javascript:window.location.href='addvm.php'"><i class="icon-plus icon-white"></i>添加虚拟机</button>
+            <button class="btn btn-primary" onclick="javascript:window.location.href='addvm.php'"><i class="icon-plus icon-white"></i>Create new machine</button>
         </p>
     </div>
     <div class="list">
@@ -25,15 +25,15 @@ $tmp = $lv->get_domain_count();
         ?>
         <table class="table table-bordered">
             <tr>
-                <th>虚拟机名称</th>
+                <th>Name</th>
                 <th>CPU#</th>
-                <th>内存</th>
-                <th>硬盘(s)</th>
+                <th>Memory</th>
+                <th>Diskspace</th>
                 <th>NICs</th>
-                <th>系统位数</th>
-                <th>状态</th>
-                <th>ID / VNC 端口</th>
-                <th>操作</th>
+                <th>Architecture</th>
+                <th>Status</th>
+                <th>ID / VNC</th>
+                <th>Actions</th>
             </tr>
             <?php
             $ret = false;
@@ -116,17 +116,17 @@ $tmp = $lv->get_domain_count();
 
                 if ($lv->domain_is_running($res, $name)){
                     echo "<button class=\"btn btn-info\" onclick=\"javascript:window.open('index.php?action=domain-vnc&amp;vmname=$name');\">VNC</button> | ";
-                    echo "<button class=\"btn btn-warning\" onclick=\"javascript:location.href='index.php?action=domain-stop&amp;uuid=$uuid'\">关机</button> | ";
-                    echo "<button class=\"btn btn-danger\" onclick=\"javascript:location.href='index.php?action=domain-destroy&amp;uuid=$uuid'\">强制关机</button>";
+                    echo "<button class=\"btn btn-warning\" onclick=\"javascript:location.href='index.php?action=domain-stop&amp;uuid=$uuid'\">Shutdown</button> | ";
+                    echo "<button class=\"btn btn-danger\" onclick=\"javascript:location.href='index.php?action=domain-destroy&amp;uuid=$uuid'\">Force shutdown</button>";
                 }else
-                    echo "<button class=\"btn btn-success\" onclick=\"javascript:location.href='index.php?action=domain-start&amp;uuid=$uuid'\">开启</button>";
+                    echo "<button class=\"btn btn-success\" onclick=\"javascript:location.href='index.php?action=domain-start&amp;uuid=$uuid'\">Start</button>";
 
-                echo " | <button class=\"btn btn-info\" onclick=\"javascript:location.href='index.php?action=domain-edit&amp;uuid=$uuid'\">编辑XML</button>";
+                echo " | <button class=\"btn btn-info\" onclick=\"javascript:location.href='index.php?action=domain-edit&amp;uuid=$uuid'\">View deployed XML</button>";
 
                 if (!$lv->domain_is_running($res, $name))
-                    echo " | <button class=\"btn btn-danger\" onclick=\"javascript:location.href='delvm.php?vmname=$name'\">删除</button>";
+                    echo " | <button class=\"btn btn-danger\" onclick=\"javascript:location.href='delvm.php?vmname=$name'\">Delete</button>";
                 else
-                    echo " | <a href=\"screenshot.php?uuid=$uuid\">屏幕截图</a>";
+                    echo " | <a href=\"screenshot.php?uuid=$uuid\">Snapshot</a>";
 
                 echo "</td></tr>";
             }
