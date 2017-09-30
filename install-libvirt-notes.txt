@@ -1,0 +1,24 @@
+Notes voor installatie van het pakket	
+
+yum update -y
+yum groupinstall "Development tools" -y
+yum install libvirt httpd php php-mysql mariadb-server mariadb wget libvirt-devel libxml2-devel php-devel.x86_64 libxslt virt-manager ssh-askpass openssh-askpass -y
+systemctl start httpd
+systemctl enable httpd.service
+systemctl start mariadb
+systemctl enable mariadb.service
+systemctl restart httpd
+wget http://libvirt.org/sources/php/libvirt-php-0.4.8.tar.gz
+gunzip -c libvirt-php-0.4.8.tar.gz | tar xvf -
+cd libvirt-php-0.4.8
+./configure
+make
+make install
+php -m | grep libvirt > /dev/null; echo $?
+
+Onderste commando moet een 0 laten zien.
+
+Daarna alleen nog:
+
+vi /etc/php.d/libvirt.ini
+extension=libvirt-php.so
